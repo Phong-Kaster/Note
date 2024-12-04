@@ -22,5 +22,22 @@ data class Note(
                 categoryId = NoteCategory.getFakeCategory().uid,
             )
         }
+
+
+        fun getFakeNotes(): List<Note> {
+            val fakeNote = getFakeNote()
+            return listOf(
+                fakeNote,
+                fakeNote.copy(uid = 1),
+                fakeNote.copy(uid = 2),
+                fakeNote.copy(uid = 4),
+                fakeNote.copy(uid = 5),
+                fakeNote.copy(uid = 6),
+                fakeNote.copy(uid = 7),
+                fakeNote.copy(uid = 8),
+                fakeNote.copy(uid = 9),
+                fakeNote.copy(uid = 10),
+            )
+        }
     }
 }

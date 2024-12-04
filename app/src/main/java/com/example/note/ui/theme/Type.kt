@@ -1,10 +1,13 @@
 package com.example.note.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.jetpack.core.LocalTheme
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -31,4 +34,17 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+)
+
+
+fun customizedTextStyle(
+    fontSize: Int = 14,
+    fontWeight: Int = 400,
+    lineHeight: Int = (fontSize * 1.5f).toInt(),
+    color: Color = Color.White,
+): TextStyle = TextStyle(
+    fontSize = fontSize.sp,
+    fontWeight = FontWeight(fontWeight),
+    lineHeight = lineHeight.sp,
+    color = color,
 )

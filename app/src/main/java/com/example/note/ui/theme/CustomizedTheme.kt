@@ -28,7 +28,7 @@ val DarkCustomizedTheme = CustomizedTheme(
     error = Color(0xFFC20000),
     onError = Color(0xFFD9D9D9),
     textColor = Color.White,
-    dim = Color(0xFF8C8C8C),
+    dim = Color(0xFF212E44),
     onDim = Color(0xFF2C3141)
 )
 
