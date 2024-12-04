@@ -18,13 +18,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.Density
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.note.ui.theme.DarkCustomizedTheme
+import com.example.note.ui.theme.LightCustomizedTheme
 import com.example.note.ui.theme.NoteTheme
 import com.example.note.util.AppUtil
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
@@ -36,8 +36,8 @@ val LocalTheme = compositionLocalOf { DarkCustomizedTheme }
 @AndroidEntryPoint
 open class CoreFragment : Fragment(), CoreBehavior {
 
-    @Inject
-    lateinit var settingRepository: SettingRepository
+    //@Inject
+    //lateinit var settingRepository: SettingRepository
     protected open val TAG: String = this.javaClass.simpleName
 
     /** Dark Mode*/
@@ -49,7 +49,7 @@ open class CoreFragment : Fragment(), CoreBehavior {
         savedInstanceState: Bundle?
     ): View {
         makeStatusBarTransparent()
-        setupDarkMode()
+        //setupDarkMode()
         return ComposeView(requireActivity()).apply {
             setViewCompositionStrategy(strategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
@@ -94,11 +94,11 @@ open class CoreFragment : Fragment(), CoreBehavior {
         }*/
     }
 
-    private fun setupDarkMode() {
+    /*private fun setupDarkMode() {
         lifecycleScope.launch {
             settingRepository.enableDarkModeFlow().collect {
                 enableDarkMode = it
             }
         }
-    }
+    }*/
 }

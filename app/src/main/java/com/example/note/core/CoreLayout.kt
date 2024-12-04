@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -21,14 +20,14 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CoreLayout(
     modifier: Modifier = Modifier,
-    loading: Boolean = false,
+    showLoading: Boolean = false,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     snackbarHost: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     backgroundColor: Color = Color(0xFF2C3141),
     contentWindowInsets: WindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -54,7 +53,7 @@ fun CoreLayout(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            if (loading) {
+            if (showLoading) {
                 CircularProgressIndicator()
             } else {
                 content()
