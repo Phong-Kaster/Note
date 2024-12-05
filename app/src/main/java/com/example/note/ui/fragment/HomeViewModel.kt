@@ -28,8 +28,7 @@ constructor(
     private fun collectNotes() {
         viewModelScope.launch {
             noteRepository.getAllFlow().collect { notes ->
-                //_uiState.value = _uiState.value.copy(notes = notes)
-                _uiState.value = _uiState.value.copy(notes = Note.getFakeNotes())
+                _uiState.value = _uiState.value.copy(notes = notes)
             }
         }
     }

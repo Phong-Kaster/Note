@@ -47,20 +47,16 @@ class HomeFragment : CoreFragment() {
 fun HomeLayout(
     uiState: HomeUiState
 ) {
-    val scrollBehavior =
-        TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     // for expandable floating action button
     val state = rememberLazyListState()
     val fabExtended by remember { derivedStateOf { state.firstVisibleItemIndex > 0 } }
 
+
     CoreLayout(
-        topBar = {
-            TopBar(scrollBehavior = scrollBehavior)
-        },
-        floatingActionButton = {
-            CoreExpandableFloatingButton(extended = fabExtended)
-        },
+        topBar = { TopBar(scrollBehavior = scrollBehavior) },
+        floatingActionButton = { CoreExpandableFloatingButton(extended = fabExtended) },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         content = {
             LazyColumn(
