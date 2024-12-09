@@ -23,7 +23,7 @@ constructor(
     Task(
         nameId = R.string.task,
         drawableId = R.drawable.ic_launcher_foreground,
-        destinationId = R.id.note,
+        destinationId = R.id.taskFragment,
         directions = R.id.toTask,
         homeDestinationId = R.id.homeFragment
     )

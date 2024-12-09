@@ -39,18 +39,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpack.R
-import com.example.jetpack.configuration.Menu
 import com.example.jetpack.core.LocalNavController
 import com.example.jetpack.core.LocalTheme
-import com.example.jetpack.ui.fragment.home.component.HomeBottomSheet
-import com.example.jetpack.ui.fragment.tutorial.component.LocalTutorial
-import com.example.jetpack.ui.modifier.borderWithAnimatedGradient
-import com.example.jetpack.ui.theme.customizedTextStyle
-import com.example.jetpack.util.ViewUtil
-import com.example.jetpack.util.ViewUtil.CenterColumn
+
 import com.example.note.domain.enums.Menu
 import com.example.note.ui.modifier.borderWithAnimatedGradient
+import com.example.note.ui.theme.customizedTextStyle
 
 @Composable
 fun CoreBottomBar() {
@@ -104,9 +98,7 @@ fun CoreBottomBar() {
                 .size(48.dp)
                 .clip(shape = CircleShape)
                 .background(color = LocalTheme.current.secondary)
-                .onGloballyPositioned {
-                    tutorial.addButtonSize = it.boundsInRoot()
-                }
+
                 .clickable { showBottomSheet = !showBottomSheet },
         ) {
             Icon(
@@ -117,7 +109,7 @@ fun CoreBottomBar() {
             )
         }
 
-        listOf(Menu.Article, Menu.Setting).forEach { item ->
+        listOf(Menu.Note, Menu.Task).forEach { item ->
             BottomBarItem(
                 selected = currentDestination?.hierarchy?.any { it.id == item.destinationId } == true,
                 drawableId = item.drawableId,
@@ -191,7 +183,5 @@ private fun BottomBarItem(
 @Preview
 @Composable
 fun PreviewBottomBar() {
-    ViewUtil.PreviewContent {
-        CoreBottomBar()
-    }
+    CoreBottomBar()
 }

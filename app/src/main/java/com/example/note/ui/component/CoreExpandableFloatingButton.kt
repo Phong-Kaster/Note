@@ -12,6 +12,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Create
@@ -34,6 +37,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.stringResource
@@ -82,14 +87,22 @@ fun CoreExpandableFloatingButton(
             }
         )
 
-        FloatingActionButton(
-            onClick = { expand = !expand },
-            modifier = modifier
+        Box(
+            modifier = Modifier
                 .padding(16.dp)
+                .clip(shape = RoundedCornerShape(15.dp))
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            LocalTheme.current.primary,
+                            LocalTheme.current.secondary,
+                        )
+                    )
+                )
+                .clickable { expand = !expand }
                 .navigationBarsPadding()
                 .height(48.dp)
-                .widthIn(min = 48.dp),
-            containerColor = LocalTheme.current.secondary
+                .widthIn(min = 48.dp)
         ) {
             CoreExpandableFloatingButtonContent(
                 icon = {

@@ -8,10 +8,20 @@
         android:id="@+id/homeFragment"
         android:name="com.example.note.ui.fragment.home.HomeFragment" />
 
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="com.example.note.ui.fragment.task.TaskFragment" />
+
     <!-- FOUR MAIN SCREEN-->
     <action
         android:id="@+id/toHome"
         app:destination="@id/homeFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/navigation_graph" />
+
+    <action
+        android:id="@+id/toTask"
+        app:destination="@id/taskFragment"
         app:launchSingleTop="true"
         app:popUpTo="@id/navigation_graph" />
 
