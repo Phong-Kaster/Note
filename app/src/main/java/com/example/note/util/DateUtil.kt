@@ -29,6 +29,7 @@ object DateUtil {
     const val PATTERN_dd_MMM = "dd MMM" // 14 DEC
     const val PATTERN_MMM = "MMM" // 14 DEC
     const val PATTERN_dd = "dd" // 14
+    const val PATTERN_EEE_MMM_dd_hh_mm_aa = "EEE, MMMM YYYY dd hh:mm aa" // Mon, December 01
 
 
     @SuppressLint("SimpleDateFormat")

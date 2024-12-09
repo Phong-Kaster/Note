@@ -5,7 +5,7 @@ import java.util.Date
 
 @Stable
 data class Note(
-    val uid: Long,
+    val uid: Long = 0,
     val title: String = "",
     val content: String = "",
     val isTask: Boolean = false,
