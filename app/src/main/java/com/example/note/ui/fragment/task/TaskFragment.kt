@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import com.example.jetpack.core.CoreFragment
 import com.example.jetpack.core.CoreLayout
 import com.example.note.R
+import com.example.note.ui.component.CoreBottomBar
+import com.example.note.ui.component.CoreExpandableFloatingButton
 import com.example.note.ui.component.TopBar
 import com.example.note.ui.theme.customizedTextStyle
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +50,8 @@ fun TaskLayout() {
                     .statusBarsPadding()
             )
         },
+        bottomBar = { CoreBottomBar() },
+        floatingActionButton = { CoreExpandableFloatingButton(extended = isCollapsed) },
         content = {
             LazyColumn(
                 state = state,

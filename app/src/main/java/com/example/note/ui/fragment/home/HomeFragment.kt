@@ -24,6 +24,7 @@ import com.example.jetpack.core.CoreFragment
 import com.example.jetpack.core.CoreLayout
 import com.example.note.R
 import com.example.note.domain.model.Note
+import com.example.note.ui.component.CoreBottomBar
 import com.example.note.ui.component.CoreExpandableFloatingButton
 import com.example.note.ui.fragment.home.compontent.NoteElement
 import com.example.note.ui.component.TopBar
@@ -63,6 +64,7 @@ fun HomeLayout(
                     .statusBarsPadding()
             )
         },
+        bottomBar = { CoreBottomBar() },
         floatingActionButton = { CoreExpandableFloatingButton(extended = isCollapsed) },
         modifier = Modifier,
         content = {

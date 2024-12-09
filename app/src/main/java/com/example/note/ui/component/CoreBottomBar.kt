@@ -91,7 +91,7 @@ fun CoreBottomBar() {
             }
         }
 
-        Box(
+        /*Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
@@ -107,9 +107,9 @@ fun CoreBottomBar() {
                 modifier = Modifier.size(30.dp),
                 tint = Color.White
             )
-        }
+        }*/
 
-        listOf(Menu.Note, Menu.Task).forEach { item ->
+        /*listOf(Menu.Note, Menu.Task).forEach { item ->
             BottomBarItem(
                 selected = currentDestination?.hierarchy?.any { it.id == item.destinationId } == true,
                 drawableId = item.drawableId,
@@ -120,7 +120,7 @@ fun CoreBottomBar() {
                     navController.navigate(item.directions)
                 }
             }
-        }
+        }*/
     }
 
 
@@ -161,7 +161,7 @@ private fun BottomBarItem(
             painter = painterResource(drawableId),
             contentDescription = stringResource(id = stringId),
             modifier = Modifier.size(24.dp),
-            tint = if (selected) LocalTheme.current.textColor else LocalTheme.current.dim,
+            tint = if (selected) LocalTheme.current.textColor else Color.LightGray,
         )
 
         if (selected) {
