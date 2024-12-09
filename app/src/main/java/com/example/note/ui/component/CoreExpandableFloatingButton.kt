@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Create
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.compose.rememberNavController
@@ -44,6 +46,19 @@ import com.example.jetpack.core.LocalTheme
 import com.example.note.R
 import com.example.note.ui.theme.customizedTextStyle
 import kotlin.math.roundToInt
+
+@Preview
+@Composable
+private fun PreviewCoreExpandableFloatingButtonExpanded() {
+    CoreExpandableFloatingButton(extended = true)
+}
+
+@Preview
+@Composable
+private fun PreviewCoreExpandableFloatingButtonCollapsed() {
+    CoreExpandableFloatingButton(extended = false)
+}
+
 
 @Composable
 fun CoreExpandableFloatingButton(
@@ -74,22 +89,16 @@ fun CoreExpandableFloatingButton(
                 .navigationBarsPadding()
                 .height(48.dp)
                 .widthIn(min = 48.dp),
-            containerColor = LocalTheme.current.primary
+            containerColor = LocalTheme.current.secondary
         ) {
             CoreExpandableFloatingButtonContent(
                 icon = {
                     Icon(
-                        imageVector = Icons.Rounded.Add,
+                        imageVector = Icons.Rounded.Create,
                         contentDescription = null,
-                        tint = LocalTheme.current.secondary,
+                        tint = LocalTheme.current.textColor,
                         modifier = Modifier
-                            .size(30.dp)
-                            /*.drawBehind {
-                                drawCircle(
-                                    color = Color.White,
-                                    radius = size.width * 0.55F
-                                )
-                            }*/
+                            .size(24.dp)
                     )
                 },
                 text = {
@@ -99,7 +108,7 @@ fun CoreExpandableFloatingButton(
                             style = customizedTextStyle(
                                 fontSize = 14,
                                 fontWeight = 700,
-                                color = LocalTheme.current.secondary
+                                color = LocalTheme.current.textColor
                             )
                         )
                     }
@@ -224,4 +233,4 @@ private fun IconAndTextRow(
 
 private enum class ExpandableFabStates { Collapsed, Extended }
 
-private const val transitionDuration = 200
+private const val transitionDuration = 500

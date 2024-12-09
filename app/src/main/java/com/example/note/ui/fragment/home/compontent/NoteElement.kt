@@ -1,4 +1,4 @@
-package com.example.note.ui.fragment.compontent
+package com.example.note.ui.fragment.home.compontent
 
 import android.widget.Space
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package com.example.note.ui.fragment
+package com.example.note.ui.fragment.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,7 +28,8 @@ constructor(
     private fun collectNotes() {
         viewModelScope.launch {
             noteRepository.getAllFlow().collect { notes ->
-                _uiState.value = _uiState.value.copy(notes = notes)
+                //_uiState.value = _uiState.value.copy(notes = notes)
+                _uiState.value = _uiState.value.copy(notes = Note.getFakeNotes())
             }
         }
     }
