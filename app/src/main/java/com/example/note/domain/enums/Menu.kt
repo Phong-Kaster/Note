@@ -15,9 +15,9 @@ enum class Menu(
     Note(
         nameId = R.string.note,
         drawableId = R.drawable.ic_note,
-        destinationId = R.id.homeFragment,
-        directions = R.id.toHome,
-        homeDestinationId = R.id.homeFragment
+        destinationId = R.id.noteFragment,
+        directions = R.id.toNote,
+        homeDestinationId = R.id.noteFragment
     ),
     Task(
         nameId = R.string.task,

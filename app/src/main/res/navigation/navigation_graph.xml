@@ -2,11 +2,15 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/noteFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.note.ui.fragment.home.HomeFragment" />
+        android:id="@+id/noteFragment"
+        android:name="com.example.note.ui.fragment.note.NoteFragment" />
+
+    <fragment
+        android:id="@+id/noteCreateFragment"
+        android:name="com.example.note.ui.fragment.notecreate.NoteCreateFragment" />
 
     <fragment
         android:id="@+id/taskFragment"
@@ -14,8 +18,8 @@
 
     <!-- FOUR MAIN SCREEN-->
     <action
-        android:id="@+id/toHome"
-        app:destination="@id/homeFragment"
+        android:id="@+id/toNote"
+        app:destination="@id/noteFragment"
         app:launchSingleTop="true"
         app:popUpTo="@id/navigation_graph" />
 
@@ -25,5 +29,8 @@
         app:launchSingleTop="true"
         app:popUpTo="@id/navigation_graph" />
 
-
+    <action
+        android:id="@+id/toCreateNote"
+        app:destination="@id/noteCreateFragment"
+        app:popUpToInclusive="true" />
 </navigation>

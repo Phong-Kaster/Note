@@ -1,4 +1,4 @@
-package com.example.note.ui.fragment.home
+package com.example.note.ui.fragment.note
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,28 +26,31 @@ import com.example.note.R
 import com.example.note.domain.model.Note
 import com.example.note.ui.component.CoreBottomBar
 import com.example.note.ui.component.CoreExpandableFloatingButton
-import com.example.note.ui.fragment.home.compontent.NoteElement
+import com.example.note.ui.fragment.note.compontent.NoteElement
 import com.example.note.ui.component.TopBar
 import com.example.note.ui.theme.customizedTextStyle
+import com.example.note.util.NavigationUtil.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : CoreFragment() {
+class NoteFragment : CoreFragment() {
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: NoteViewModel by viewModels()
 
     @Composable
     override fun ComposeView() {
         super.ComposeView()
         HomeLayout(
-            uiState = viewModel.uiState.collectAsStateWithLifecycle().value
+            uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
+            onCreateNote = { safeNavigate(R.id.toCreateNote) },
         )
     }
 }
 
 @Composable
 fun HomeLayout(
-    uiState: HomeUiState
+    uiState: NoteUiState,
+    onCreateNote: () -> Unit = {},
 ) {
 
     // for expandable floating action button
@@ -65,7 +68,12 @@ fun HomeLayout(
             )
         },
         bottomBar = { CoreBottomBar() },
-        floatingActionButton = { CoreExpandableFloatingButton(extended = isCollapsed) },
+        floatingActionButton = {
+            CoreExpandableFloatingButton(
+                extended = isCollapsed,
+                onClick = onCreateNote
+            )
+        },
         modifier = Modifier,
         content = {
             LazyColumn(
@@ -89,7 +97,7 @@ fun HomeLayout(
 
                 itemsIndexed(
                     items = uiState.notes,
-                    key = { index: Int, item: Note -> "$index,${item.uid}" },
+                    key = { index: Int, item: Note -> "$index" },
                     itemContent = { index, note ->
                         NoteElement(note = note)
                     }
@@ -103,8 +111,8 @@ fun HomeLayout(
 @Composable
 private fun PreviewHome() {
     HomeLayout(
-        uiState = HomeUiState(
-            notes = Note.getFakeNotes()
+        uiState = NoteUiState(
+            notes = Note.getFakeNotes().take(3)
         )
     )
 }

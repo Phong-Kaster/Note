@@ -44,6 +44,7 @@ fun TaskLayout() {
     CoreLayout(
         topBar = {
             TopBar(
+                title = stringResource(R.string.task),
                 isCollapsed = isCollapsed,
                 modifier = Modifier
                     .fillMaxWidth()

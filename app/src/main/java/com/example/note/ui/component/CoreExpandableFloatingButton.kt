@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
@@ -31,12 +32,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
@@ -68,25 +72,27 @@ private fun PreviewCoreExpandableFloatingButtonCollapsed() {
 @Composable
 fun CoreExpandableFloatingButton(
     extended: Boolean,
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val navController = LocalNavController.current ?: rememberNavController()
-    var expand by remember { mutableStateOf(false) }
+
+    var alpha by remember { mutableFloatStateOf(0f) }
+    val alphaAnimation by animateFloatAsState(
+        targetValue = alpha,
+        animationSpec = tween(durationMillis = 1000),
+        label = "alphaAnimation"
+    )
+
+    LaunchedEffect(Unit) { alpha = 1f }
 
     Column(
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.Bottom,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .alpha(alpha = alphaAnimation)
     ) {
-        AnimatedVisibility(
-            visible = expand,
-            enter = slideInVertically() + fadeIn() + expandVertically(expandFrom = Alignment.Top),
-            exit = slideOutVertically() + fadeOut() + shrinkVertically(shrinkTowards = Alignment.Bottom),
-            content = {
-
-            }
-        )
-
         Box(
             modifier = Modifier
                 .padding(16.dp)
@@ -99,7 +105,9 @@ fun CoreExpandableFloatingButton(
                         )
                     )
                 )
-                .clickable { expand = !expand }
+                .clickable {
+                    onClick()
+                }
                 .navigationBarsPadding()
                 .height(48.dp)
                 .widthIn(min = 48.dp)

@@ -1,6 +1,5 @@
-package com.example.note.ui.fragment.home.compontent
+package com.example.note.ui.fragment.note.compontent
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
