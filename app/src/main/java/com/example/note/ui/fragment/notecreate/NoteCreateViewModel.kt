@@ -1,6 +1,6 @@
 package com.example.note.ui.fragment.notecreate
 
-import androidx.compose.foundation.text.input.TextFieldState
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.domain.model.Note
@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,32 +19,36 @@ class NoteCreateViewModel
 constructor() : ViewModel() {
     private val TAG = this.javaClass.simpleName
 
-//    private var _uiState = MutableStateFlow(NoteCreateUiState())
-//    val uiState: StateFlow<NoteCreateUiState> = _uiState.asStateFlow()
+    private var _uiState = MutableStateFlow(NoteCreateUiState())
+    val uiState: StateFlow<NoteCreateUiState> = _uiState.asStateFlow()
 
-    private val _note = MutableStateFlow(Note())
-    val note: StateFlow<Note> = _note.asStateFlow()
-
-    val noteTitle: TextFieldState = TextFieldState()
-    val noteContent: TextFieldState = TextFieldState()
-
-    fun updateTitle(title: String){
-        viewModelScope.launch(Dispatchers.IO){
-            _note.value = _note.value.copy(title = title)
+    fun undo() {
+        Log.d(TAG, "undo")
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.value.titleTextField.undo()
+            _uiState.value.contentTextField.undo()
         }
     }
 
-    fun updateContent(content: String){
-        viewModelScope.launch(Dispatchers.IO){
-            _note.value = _note.value.copy(content = content)
+    fun redo() {
+        Log.d(TAG, "redo")
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.value.titleTextField.redo()
+            _uiState.value.contentTextField.redo()
         }
     }
-
-    fun undo(){
+    fun done(){
+        Log.d(TAG, "done")
         viewModelScope.launch(Dispatchers.IO){
-            if (noteTitle.text.isNotEmpty()) {
-                val nextText = noteTitle.text
-            }
+            val note = Note(
+                title = _uiState.value.titleTextField.currentValue.text,
+                content = _uiState.value.contentTextField.currentValue.text,
+                isTask = false,
+                lastModified = Date(),
+                categoryId = null,
+            )
+
+            Log.d(TAG, "done - note = $note")
         }
     }
 }

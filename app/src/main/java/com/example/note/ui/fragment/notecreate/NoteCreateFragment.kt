@@ -11,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.jetpack.core.CoreFragment
 import com.example.jetpack.core.CoreLayout
+import com.example.note.domain.model.HistoricalTextField
 import com.example.note.ui.fragment.notecreate.component.NoteCreateSectionContent
 import com.example.note.ui.fragment.notecreate.component.NoteCreateSectionTitle
 import com.example.note.ui.fragment.notecreate.component.NoteCreateTopBar
@@ -28,28 +30,23 @@ class NoteCreateFragment : CoreFragment() {
     override fun ComposeView() {
         super.ComposeView()
         NoteCreateLayout(
-            noteTitle = viewModel.noteTitle,
-            noteContent = viewModel.noteContent,
+            uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
             onBack = { safeNavigateUp() },
             onUndo = { viewModel.undo() },
             onRedo = { viewModel.redo() },
-            onDone = {
-                Toast.makeText(requireContext(), "${viewModel.noteTitle.text}", Toast.LENGTH_SHORT).show()
-            },
+            onDone = { viewModel.done() },
         )
     }
 }
 
 @Composable
 fun NoteCreateLayout(
-    noteTitle: TextFieldState,
-    noteContent: TextFieldState,
+    uiState: NoteCreateUiState = NoteCreateUiState(),
     onBack: () -> Unit = {},
     onUndo: () -> Unit = {},
     onRedo: () -> Unit = {},
     onDone: () -> Unit = {},
 ) {
-
     CoreLayout(
         topBar = {
             NoteCreateTopBar(
@@ -66,8 +63,8 @@ fun NoteCreateLayout(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
-                item(key = "title") { NoteCreateSectionTitle(title = noteTitle) }
-                item(key = "content") { NoteCreateSectionContent(content = noteContent) }
+                item(key = "title") { NoteCreateSectionTitle(textField = uiState.titleTextField) }
+                item(key = "content") { NoteCreateSectionContent(textField = uiState.contentTextField) }
             }
         }
     )
@@ -77,7 +74,6 @@ fun NoteCreateLayout(
 @Composable
 private fun PreviewNoteCreateLayout() {
     NoteCreateLayout(
-        noteTitle = TextFieldState(),
-        noteContent = TextFieldState(),
+        uiState = NoteCreateUiState()
     )
 }
