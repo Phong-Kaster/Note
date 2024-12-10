@@ -4,12 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -22,7 +18,7 @@ import com.example.note.domain.model.HistoricalTextField
 import com.example.note.ui.theme.customizedTextStyle
 
 @Composable
-fun NoteCreateSectionContent(
+fun SectionContent(
     textField: HistoricalTextField,
 ) {
     val currentTitle =textField.currentValue
@@ -51,7 +47,7 @@ fun NoteCreateSectionContent(
                         style = customizedTextStyle(
                             fontSize = 24,
                             fontWeight = 600,
-                            color = Color.DarkGray,
+                            color = Color.Gray,
                         ),
                     )
                 }
@@ -65,7 +61,7 @@ fun NoteCreateSectionContent(
 @Preview
 @Composable
 private fun PreviewNoteCreateSectionContent() {
-    NoteCreateSectionContent(
+    SectionContent(
         textField = HistoricalTextField(),
     )
 }

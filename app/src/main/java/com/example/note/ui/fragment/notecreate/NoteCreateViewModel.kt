@@ -27,6 +27,10 @@ constructor(
     val uiState: StateFlow<NoteCreateUiState> = _uiState.asStateFlow()
 
     init {
+        setupDisplay()
+    }
+
+    private fun setupDisplay(){
         viewModelScope.launch(Dispatchers.IO){
             _uiState.value.titleTextField.setText(text = _uiState.value.note.title)
             _uiState.value.contentTextField.setText(text = _uiState.value.note.content)
@@ -72,8 +76,7 @@ constructor(
             noteRepository.findNoteById(uid).collect { it ->
                 Log.d(TAG, "findNoteById = $it")
                 _uiState.value.note = it
-                _uiState.value.titleTextField.setText(text = it.title)
-                _uiState.value.contentTextField.setText(text = it.content)
+                setupDisplay()
             }
         }
     }

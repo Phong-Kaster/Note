@@ -15,8 +15,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.jetpack.core.CoreFragment
 import com.example.jetpack.core.CoreLayout
 import com.example.note.configuration.Constant
-import com.example.note.ui.fragment.notecreate.component.NoteCreateSectionContent
-import com.example.note.ui.fragment.notecreate.component.NoteCreateSectionTitle
+import com.example.note.ui.fragment.notecreate.component.SectionContent
+import com.example.note.ui.fragment.notecreate.component.SectionTitle
 import com.example.note.ui.fragment.notecreate.component.NoteCreateTopBar
 import com.example.note.util.NavigationUtil.safeNavigateUp
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +31,10 @@ class NoteCreateFragment : CoreFragment() {
         collectPassedData()
     }
 
+    /**
+     * if Note id == 0 then create new note
+     * if Note id > 0 then update note
+     * */
     private fun collectPassedData() {
         val noteId = arguments?.getLong(Constant.NOTE_ID) ?: return
         viewModel.findNoteById(noteId)
@@ -80,8 +84,8 @@ fun NoteCreateLayout(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
-                item(key = "title") { NoteCreateSectionTitle(textField = uiState.titleTextField) }
-                item(key = "content") { NoteCreateSectionContent(textField = uiState.contentTextField) }
+                item(key = "title") { SectionTitle(textField = uiState.titleTextField) }
+                item(key = "content") { SectionContent(textField = uiState.contentTextField) }
             }
         }
     )
