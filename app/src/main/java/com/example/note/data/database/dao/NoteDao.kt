@@ -17,7 +17,7 @@ interface  NoteDao {
 
     // READ
     @Query("SELECT * FROM table_note WHERE table_note.uid LIKE :uid")
-    suspend fun findById(uid: Long): List<NoteEntity>
+    fun findById(uid: Long): Flow<NoteEntity>
 
     @Query("SELECT * FROM table_note")
     suspend fun getAll(): List<NoteEntity>

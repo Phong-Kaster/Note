@@ -48,4 +48,8 @@ constructor(
     suspend fun update(note: Note) = withContext(dispatchIO) {
         dao.update(entity = note.toEntity())
     }
+
+    suspend fun findNoteById(id: Long): Flow<Note> {
+        return dao.findById(id).map { note -> note.toModel() }
+    }
 }

@@ -58,4 +58,8 @@ class HistoricalTextField {
         }
         currentValue = newValue
     }
+
+    fun setText(text: String) {
+        currentValue = TextFieldValue(text = text)
+    }
 }

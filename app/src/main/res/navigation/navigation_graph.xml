@@ -10,8 +10,12 @@
 
     <fragment
         android:id="@+id/noteCreateFragment"
-        android:name="com.example.note.ui.fragment.notecreate.NoteCreateFragment" />
-
+        android:name="com.example.note.ui.fragment.notecreate.NoteCreateFragment">
+        <argument
+            android:name="noteId"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.example.note.ui.fragment.task.TaskFragment" />

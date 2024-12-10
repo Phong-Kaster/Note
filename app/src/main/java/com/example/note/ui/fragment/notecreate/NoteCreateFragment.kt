@@ -1,20 +1,20 @@
 package com.example.note.ui.fragment.notecreate
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.jetpack.core.CoreFragment
 import com.example.jetpack.core.CoreLayout
-import com.example.note.domain.model.HistoricalTextField
+import com.example.note.configuration.Constant
 import com.example.note.ui.fragment.notecreate.component.NoteCreateSectionContent
 import com.example.note.ui.fragment.notecreate.component.NoteCreateSectionTitle
 import com.example.note.ui.fragment.notecreate.component.NoteCreateTopBar
@@ -25,6 +25,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class NoteCreateFragment : CoreFragment() {
 
     private val viewModel: NoteCreateViewModel by viewModels()
+
+    override fun onStart() {
+        super.onStart()
+        collectPassedData()
+    }
+
+    private fun collectPassedData() {
+        val noteId = arguments?.getLong(Constant.NOTE_ID) ?: return
+        viewModel.findNoteById(noteId)
+    }
 
     @Composable
     override fun ComposeView() {
@@ -47,13 +57,20 @@ fun NoteCreateLayout(
     onRedo: () -> Unit = {},
     onDone: () -> Unit = {},
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
     CoreLayout(
         topBar = {
             NoteCreateTopBar(
                 onBack = onBack,
                 onUndo = onUndo,
                 onRedo = onRedo,
-                onDone = onDone,
+                onDone = {
+                    onDone()
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                },
             )
         },
         content = {

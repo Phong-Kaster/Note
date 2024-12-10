@@ -14,7 +14,7 @@ import javax.inject.Inject
 class NoteViewModel
 @Inject
 constructor(
-    val noteRepository: NoteRepository
+    private val noteRepository: NoteRepository
 ) : ViewModel() {
     private val TAG = this.javaClass.simpleName
 
