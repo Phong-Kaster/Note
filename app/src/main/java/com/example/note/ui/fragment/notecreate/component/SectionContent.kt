@@ -4,12 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpack.core.LocalTheme
@@ -20,8 +24,9 @@ import com.example.note.ui.theme.customizedTextStyle
 @Composable
 fun SectionContent(
     textField: HistoricalTextField,
+    onFocusChanged: (Boolean) -> Unit = {},
 ) {
-    val currentTitle =textField.currentValue
+    val currentTitle = textField.currentValue
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -53,7 +58,15 @@ fun SectionContent(
                 }
                 innerTextField()
             },
-            modifier = Modifier.fillMaxWidth()
+            keyboardActions = KeyboardActions(
+                onDone = { onFocusChanged(false) }
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged {
+                    onFocusChanged(it.isFocused)
+                }
         )
     }
 }

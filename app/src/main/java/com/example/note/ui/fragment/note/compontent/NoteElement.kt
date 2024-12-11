@@ -1,5 +1,7 @@
 package com.example.note.ui.fragment.note.compontent
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
@@ -12,7 +14,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,15 +38,25 @@ fun NoteElement(
     note: Note,
     onClick: () -> Unit = {},
 ) {
+    var alpha by remember { mutableFloatStateOf(0f) }
+    val alphaAnimation by animateFloatAsState(
+        targetValue = alpha,
+        animationSpec = tween(durationMillis = 200),
+        label = "alphaAnimation"
+    )
+
+    LaunchedEffect(Unit){ alpha = 1f }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp),
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(15.dp))
             .clickable { onClick() }
+            .alpha(alpha = alphaAnimation)
             .background(
                 color = Color(0xFF212E44),
-                shape = RoundedCornerShape(15.dp)
+                shape = RoundedCornerShape(15.dp),
             )
             .padding(horizontal = 16.dp, vertical = 16.dp)
     ) {
@@ -46,12 +65,12 @@ fun NoteElement(
             style = customizedTextStyle(
                 fontSize = 18,
                 fontWeight = 600,
-                color = Color.White,
+                color = LocalTheme.current.primary,
             ),
+            minLines = 1,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
 
         Text(

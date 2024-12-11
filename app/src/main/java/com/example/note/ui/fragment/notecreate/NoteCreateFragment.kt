@@ -1,10 +1,12 @@
 package com.example.note.ui.fragment.notecreate
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -49,6 +51,8 @@ class NoteCreateFragment : CoreFragment() {
             onUndo = { viewModel.undo() },
             onRedo = { viewModel.redo() },
             onDone = { viewModel.done() },
+            onTitleFocusChanged = { viewModel.updateTitleFocusChanged(it) },
+            onContentFocusChanged = { viewModel.updateContentFocusChanged(it) },
         )
     }
 }
@@ -60,13 +64,17 @@ fun NoteCreateLayout(
     onUndo: () -> Unit = {},
     onRedo: () -> Unit = {},
     onDone: () -> Unit = {},
+    onTitleFocusChanged: (Boolean) -> Unit = {},
+    onContentFocusChanged: (Boolean) -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
+
     CoreLayout(
         topBar = {
             NoteCreateTopBar(
+                isTypingMode = uiState.isTypingMode,
                 onBack = onBack,
                 onUndo = onUndo,
                 onRedo = onRedo,
@@ -84,8 +92,8 @@ fun NoteCreateLayout(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
-                item(key = "title") { SectionTitle(textField = uiState.titleTextField) }
-                item(key = "content") { SectionContent(textField = uiState.contentTextField) }
+                item(key = "title") { SectionTitle(textField = uiState.titleTextField, onFocusChanged = onTitleFocusChanged) }
+                item(key = "content") { SectionContent(textField = uiState.contentTextField, onFocusChanged = onContentFocusChanged) }
             }
         }
     )

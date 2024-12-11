@@ -73,6 +73,7 @@ fun HomeLayout(
 
 
     CoreLayout(
+        //showLoading = uiState.notes.isEmpty(),
         topBar = {
             TopBar(
                 isCollapsed = isCollapsed,

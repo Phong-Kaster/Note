@@ -30,8 +30,8 @@ constructor(
         setupDisplay()
     }
 
-    private fun setupDisplay(){
-        viewModelScope.launch(Dispatchers.IO){
+    private fun setupDisplay() {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.value.titleTextField.setText(text = _uiState.value.note.title)
             _uiState.value.contentTextField.setText(text = _uiState.value.note.content)
         }
@@ -40,16 +40,30 @@ constructor(
     fun undo() {
         Log.d(TAG, "undo")
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.value.titleTextField.undo()
-            _uiState.value.contentTextField.undo()
+            if (_uiState.value.isTitleFocused) {
+                _uiState.value.titleTextField.undo()
+                return@launch
+            }
+
+            if (_uiState.value.isContentFocused) {
+                _uiState.value.contentTextField.undo()
+                return@launch
+            }
         }
     }
 
     fun redo() {
         Log.d(TAG, "redo")
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.value.titleTextField.redo()
-            _uiState.value.contentTextField.redo()
+            if (_uiState.value.isTitleFocused) {
+                _uiState.value.titleTextField.redo()
+                return@launch
+            }
+
+            if (_uiState.value.isContentFocused) {
+                _uiState.value.contentTextField.redo()
+                return@launch
+            }
         }
     }
 
@@ -78,6 +92,20 @@ constructor(
                 _uiState.value.note = it
                 setupDisplay()
             }
+        }
+    }
+
+    fun updateTitleFocusChanged(isFocused: Boolean) {
+        Log.d(TAG, "isTitleFocused = $isFocused")
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.value.isTitleFocused = isFocused
+        }
+    }
+
+    fun updateContentFocusChanged(isFocused: Boolean) {
+        Log.d(TAG, "isContentFocused = $isFocused")
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.value.isContentFocused = isFocused
         }
     }
 }

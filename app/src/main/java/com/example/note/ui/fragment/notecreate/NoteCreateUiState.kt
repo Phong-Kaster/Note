@@ -9,9 +9,13 @@ import com.example.note.domain.model.Note
 
 @Stable
 class NoteCreateUiState {
-    var isTypingMode by mutableStateOf(false)
+
     var note by mutableStateOf(Note())
     val titleTextField = HistoricalTextField()
     val contentTextField = HistoricalTextField()
+    var isTitleFocused by mutableStateOf(false)
+    var isContentFocused by mutableStateOf(false)
 
+    val isTypingMode: Boolean
+        get() = isTitleFocused || isContentFocused
 }

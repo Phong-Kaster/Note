@@ -17,6 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.jetpack.core.CoreFragment
 import com.example.jetpack.core.CoreLayout
 import com.example.note.R
@@ -28,14 +30,21 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TaskFragment : CoreFragment() {
+
+    private val viewModel: TaskViewModel by viewModels()
+
     @Composable
     override fun ComposeView() {
-        TaskLayout()
+        TaskLayout(
+            uiState = viewModel.uiState.collectAsStateWithLifecycle().value
+        )
     }
 }
 
 @Composable
-fun TaskLayout() {
+fun TaskLayout(
+    uiState: TaskUiState
+) {
 
     // for expandable floating action button
     val state = rememberLazyListState()
@@ -80,5 +89,7 @@ fun TaskLayout() {
 @Preview
 @Composable
 private fun PreviewTask() {
-    TaskLayout()
+    TaskLayout(
+        uiState = TaskUiState()
+    )
 }

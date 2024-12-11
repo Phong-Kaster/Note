@@ -1,6 +1,6 @@
 package com.example.note.domain.model
 
-import android.annotation.SuppressLint
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,13 +19,18 @@ class HistoricalTextField {
     /** Current value represents for the value that displays on the screen*/
     var currentValue: TextFieldValue by mutableStateOf(defaultValue)
 
-    @SuppressLint("NewApi")
+
     fun undo() {
         if (textFieldValues.isEmpty()) return
 
         // get the last character & remove
         val lastItem = textFieldValues.last()
-        textFieldValues.removeLast()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            textFieldValues.removeLast()
+        } else {
+            textFieldValues.removeAt(textFieldValues.lastIndex)
+        }
 
         // get the last character of the list after remove the previous character
         currentValue = textFieldValues.lastOrNull() ?: defaultValue
@@ -35,7 +40,6 @@ class HistoricalTextField {
     }
 
 
-    @SuppressLint("NewApi")
     fun redo() {
         if (undoTextFieldValues.isEmpty()) return
 
@@ -44,7 +48,11 @@ class HistoricalTextField {
             val lastItem = undoTextFieldValues.last()
 
             // set current value equals undo text field value
-            currentValue = undoTextFieldValues.removeLast()
+            currentValue = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                undoTextFieldValues.removeLast()
+            } else {
+                undoTextFieldValues.removeAt(undoTextFieldValues.lastIndex)
+            }
             textFieldValues.add(lastItem)
 
         } catch (ex: Exception) {
